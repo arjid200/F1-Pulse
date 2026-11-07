@@ -17,8 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: '22'
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -27,7 +26,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Install npm dependencies
-        run: npm ci
+        run: npm install
 
       - name: Initialise Capacitor
         run: npx cap init "F1 Pulse" "com.f1pulse.app" --web-dir www
