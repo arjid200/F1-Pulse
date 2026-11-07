@@ -28,16 +28,14 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-      - name: Initialise Capacitor
-        run: npx cap init "F1 Pulse" "com.f1pulse.app" --web-dir www
-
-      - name: Add Android platform
-        run: npx cap add android
-
-      - name: Patch AndroidManifest — add INTERNET permission
+      - name: Ensure Android permissions
         run: |
           MANIFEST="android/app/src/main/AndroidManifest.xml"
-          sed -i 's|<application|<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />\n\n    <application|' "$MANIFEST"
+          if grep -q "android.permission.INTERNET" "$MANIFEST"; then
+            echo "INTERNET permission already present."
+          else
+            sed -i 's|<application|<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />\n\n    <application|' "$MANIFEST"
+          fi
 
       - name: Capacitor sync
         run: npx cap sync android
