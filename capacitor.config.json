@@ -1,0 +1,14 @@
+{
+  "appId": "com.f1pulse.app",
+  "appName": "F1 Pulse",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0b0e14"
+  },
+  "plugins": {}
+}

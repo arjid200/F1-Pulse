@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#08090d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>F1 Pulse</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ░░ Ambient Glow Backdrop ░░ -->
+  <div class="glow glow--red"   aria-hidden="true"></div>
+  <div class="glow glow--cyan"  aria-hidden="true"></div>
+
+  <!-- ═══════════════════ HEADER ═══════════════════ -->
+  <header class="header" role="banner">
+    <div class="header__inner">
+
+      <div class="header__brand">
+        <span class="header__badge">FORMULA 1</span>
+        <div class="header__titles">
+          <h1 class="header__app-name">PULSE</h1>
+          <div class="header__sync">
+            <span class="sync-dot" aria-hidden="true"></span>
+            <span class="sync-label" id="sync-label">Connecting…</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header__circuit" id="header-circuit">
+        <span class="circuit-country" id="hdr-country">—</span>
+        <span class="circuit-name"   id="hdr-circuit">—</span>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main class="app-main" role="main">
+
+    <!-- ── Race Identity Card ── -->
+    <section class="card race-card" aria-label="Next race information">
+
+      <!-- Skeleton -->
+      <div class="skeleton-wrap" id="race-skeleton">
+        <div class="sk sk--label"></div>
+        <div class="sk sk--title"></div>
+        <div class="sk sk--sub"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="race-card__content hidden" id="race-content">
+        <div class="race-card__meta-row">
+          <span class="race-label" id="race-label">NEXT RACE</span>
+          <span class="race-round-pill" id="race-round">RD —</span>
+        </div>
+        <h2 class="race-card__name" id="race-name">—</h2>
+        <div class="race-card__chips">
+          <div class="chip">
+            <svg class="chip-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5A5.5 5.5 0 1 0 8 12.5 5.5 5.5 0 0 0 8 1.5ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z" fill="currentColor" opacity=".4"/><circle cx="8" cy="8" r="2.5" fill="currentColor"/></svg>
+            <span id="chip-circuit">—</span>
+          </div>
+          <div class="chip">
+            <svg class="chip-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C5.52 0 3.5 2.02 3.5 4.5c0 3.4 4.5 9 4.5 9s4.5-5.6 4.5-9C12.5 2.02 10.48 0 8 0Zm0 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="currentColor"/></svg>
+            <span id="chip-country">—</span>
+          </div>
+        </div>
+
+        <!-- Weekend session schedule -->
+        <div class="session-schedule" id="session-schedule"></div>
+      </div>
+
+      <!-- Error -->
+      <div class="inline-error hidden" id="race-error">
+        <span class="inline-error__icon">⚡</span>
+        <span class="inline-error__msg">No upcoming race data.<br>Season may be concluded.</span>
+      </div>
+
+    </section>
+
+    <!-- ── Countdown Card ── -->
+    <section class="card countdown-card" aria-label="Countdown to race start">
+
+      <div class="countdown-card__header">
+        <span class="section-eyebrow">LIGHTS OUT IN</span>
+        <span class="countdown-status" id="cd-status"></span>
+      </div>
+
+      <!-- Skeleton -->
+      <div class="skeleton-wrap" id="cd-skeleton">
+        <div class="sk sk--countdown"></div>
+      </div>
+
+      <!-- Grid -->
+      <div class="countdown-grid hidden" id="countdown-grid" role="timer" aria-live="off">
+        <div class="cd-unit">
+          <span class="cd-val" id="cd-days">--</span>
+          <span class="cd-lbl">DAYS</span>
+        </div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit">
+          <span class="cd-val" id="cd-hours">--</span>
+          <span class="cd-lbl">HRS</span>
+        </div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit">
+          <span class="cd-val" id="cd-mins">--</span>
+          <span class="cd-lbl">MIN</span>
+        </div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit">
+          <span class="cd-val cd-val--secs" id="cd-secs">--</span>
+          <span class="cd-lbl">SEC</span>
+        </div>
+      </div>
+
+      <!-- Localized session time -->
+      <div class="cd-local-time hidden" id="cd-local-time">
+        <svg class="chip-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm.75 8.53-3 1.75-.75-1.3 2.25-1.31V4h1.5v4.53Z" fill="currentColor"/></svg>
+        <span id="cd-local-text">—</span>
+      </div>
+
+      <!-- Race Weekend Banner -->
+      <div class="race-live-banner hidden" id="race-live">
+        <span class="live-flag" aria-hidden="true">🏁</span>
+        <span>IT'S RACE WEEKEND</span>
+        <span class="live-flag" aria-hidden="true">🏁</span>
+      </div>
+
+    </section>
+
+    <!-- ── Standings Card ── -->
+    <section class="card standings-card" aria-label="Driver championship standings">
+
+      <div class="standings-card__header">
+        <span class="section-eyebrow">CHAMPIONSHIP</span>
+        <span class="standings-title">DRIVER STANDINGS</span>
+        <span class="top5-badge">TOP 5</span>
+      </div>
+
+      <!-- Skeleton -->
+      <div class="skeleton-wrap" id="standings-skeleton">
+        <div class="sk sk--driver" style="--i:0"></div>
+        <div class="sk sk--driver" style="--i:1"></div>
+        <div class="sk sk--driver" style="--i:2"></div>
+        <div class="sk sk--driver" style="--i:3"></div>
+        <div class="sk sk--driver" style="--i:4"></div>
+      </div>
+
+      <!-- List -->
+      <ol class="standings-list hidden" id="standings-list" aria-label="Top 5 drivers"></ol>
+
+      <!-- Error -->
+      <div class="inline-error hidden" id="standings-error">
+        <span class="inline-error__icon">⚡</span>
+        <span class="inline-error__msg">Standings unavailable.<br>Pre-season may be in progress.</span>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="app-footer" role="contentinfo">
+    <span>Jolpica F1 API</span>
+    <span class="footer-sep">·</span>
+    <span id="footer-ts">—</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
