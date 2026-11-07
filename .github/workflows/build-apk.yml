@@ -28,12 +28,15 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
+      - name: Fresh generate Android platform
+        run: |
+          rm -rf android
+          npx cap add android
+
       - name: Ensure Android permissions
         run: |
           MANIFEST="android/app/src/main/AndroidManifest.xml"
-          if grep -q "android.permission.INTERNET" "$MANIFEST"; then
-            echo "INTERNET permission already present."
-          else
+          if ! grep -q "android.permission.INTERNET" "$MANIFEST"; then
             sed -i 's|<application|<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />\n\n    <application|' "$MANIFEST"
           fi
 
