@@ -1,7 +1,7 @@
-/* ══════════════════════════════════════════════════════════
-   F1 PULSE — Full Design System
+/* ════════════════════════════════════════════════════════════
+   F1 PULSE — Complete Design System
    Fonts: Syne (display) · JetBrains Mono (data) · Inter (body)
-   ══════════════════════════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
 
 /* ── Tokens ── */
 :root {
@@ -46,7 +46,7 @@
   --team-default:     #94A3B8;
 }
 
-/* ── Reset ── */
+/* ── Reset & Baseline ── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0; padding: 0;
@@ -73,7 +73,7 @@ body {
   position: relative;
 }
 
-/* ── Ambient glows ── */
+/* ── Ambient Background Glows ── */
 .glow {
   position: fixed;
   border-radius: 50%;
@@ -101,7 +101,7 @@ body {
   100% { transform: translate(20px, 20px) scale(1.1); opacity: 0.7; }
 }
 
-/* ── App shell ── */
+/* ── Shell Containers ── */
 .header,
 .app-main,
 .app-footer {
@@ -111,15 +111,15 @@ body {
   z-index: 1;
 }
 
-/* ════════════════════════════════════
-   HEADER
-   ════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   HEADER — Balanced Formula 1 Brand Lockup
+   ════════════════════════════════════════════════════════════ */
 .header {
-  padding: 0 18px;
+  padding: 0 16px;
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
-  background: rgba(8, 9, 13, 0.6);
+  background: rgba(8, 9, 13, 0.75);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -130,110 +130,163 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  height: 60px;
+  min-height: 64px;
+  padding: 10px 0;
 }
 
+/* Brand Side (Left) */
 .header__brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  min-width: 0;
   flex-shrink: 0;
+}
+
+.header__logo-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.header__badge-row {
+  display: flex;
+  align-items: center;
 }
 
 .header__badge {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 0.6rem;
-  letter-spacing: 2.5px;
-  color: var(--bg);
+  font-size: 0.52rem;
+  letter-spacing: 2px;
+  color: #FFFFFF;
   background: var(--red);
-  border-radius: 5px;
-  padding: 3px 7px;
+  border-radius: 3px;
+  padding: 2px 6px;
   text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
+  box-shadow: 0 0 10px rgba(255, 24, 1, 0.35);
 }
 
-.header__titles {
+.header__title-row {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 8px;
 }
 
 .header__app-name {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 1.3rem;
-  letter-spacing: 4px;
+  font-size: 1.35rem;
+  letter-spacing: 3px;
   color: var(--text-primary);
   line-height: 1;
 }
 
+/* Sync / Connection Status Pill */
 .header__sync {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
+  padding: 2.5px 7px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
 }
 
-/* Pulsing radar dot */
 .sync-dot {
-  width: 7px; height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--cyan);
   flex-shrink: 0;
-  box-shadow: 0 0 6px var(--green);
-  animation: pulse 2.2s ease-in-out infinite;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7),  0 0 6px var(--green); opacity: 1; }
-  50%       { box-shadow: 0 0 0 7px rgba(34,197,94,0),  0 0 10px var(--green); opacity: 0.8; }
+/* States */
+.sync-dot.connecting {
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: pulse-soft 1.8s ease-in-out infinite;
+}
+
+.sync-dot.synced {
+  background: var(--green);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+}
+
+.sync-dot.live {
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red);
+  animation: pulse-live 1.2s ease-in-out infinite;
+}
+
+.sync-dot.offline {
+  background: #F59E0B;
+  box-shadow: 0 0 6px #F59E0B;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.85); }
+}
+
+@keyframes pulse-live {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 24, 1, 0.7), 0 0 8px var(--red); opacity: 1; }
+  50%      { box-shadow: 0 0 0 6px rgba(255, 24, 1, 0),   0 0 12px var(--red); opacity: 0.8; }
 }
 
 .sync-label {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
+/* Circuit Info (Right) */
 .header__circuit {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: center;
   min-width: 0;
   flex-shrink: 1;
+  gap: 3px;
 }
 
 .circuit-country {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--red);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 130px;
+  max-width: 140px;
+  line-height: 1;
 }
 
 .circuit-name {
   font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 0.65rem;
+  font-weight: 500;
+  font-size: 0.68rem;
   color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 130px;
+  max-width: 140px;
+  line-height: 1.2;
 }
 
-/* ════════════════════════════════════
-   MAIN
-   ════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ════════════════════════════════════════════════════════════ */
 .app-main {
   flex: 1;
   padding: 16px 16px 8px;
@@ -242,9 +295,7 @@ body {
   gap: 14px;
 }
 
-/* ════════════════════════════════════
-   CARDS (glassmorphic)
-   ════════════════════════════════════ */
+/* ── Glassmorphic Cards ── */
 .card {
   background: var(--surface);
   backdrop-filter: blur(var(--blur));
@@ -260,9 +311,17 @@ body {
   border-color: var(--border-hover);
 }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    RACE CARD
-   ════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
+.skeleton-wrap {
+  width: 100%;
+}
+
+.race-card__content {
+  width: 100%;
+}
+
 .race-card__meta-row {
   display: flex;
   align-items: center;
@@ -320,6 +379,7 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   padding: 5px 12px;
+  max-width: 100%;
 }
 
 .chip-icon {
@@ -328,9 +388,9 @@ body {
   flex-shrink: 0;
 }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    COUNTDOWN CARD
-   ════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
 .countdown-card {
   background: linear-gradient(135deg,
     rgba(17, 24, 39, 0.75) 0%,
@@ -341,7 +401,6 @@ body {
   overflow: hidden;
 }
 
-/* Subtle red line accent at top */
 .countdown-card::before {
   content: '';
   position: absolute;
@@ -399,23 +458,12 @@ body {
   letter-spacing: -2px;
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
-  /* Subtle glow always present */
   text-shadow: 0 0 24px rgba(255,255,255,0.08);
 }
 
-/* Seconds: pulse on each tick */
 .cd-val--secs {
   color: var(--red);
   text-shadow: 0 0 24px var(--red-glow);
-}
-
-.cd-val--secs.tick {
-  animation: secs-tick 0.15s ease-out;
-}
-
-@keyframes secs-tick {
-  0%   { text-shadow: 0 0 32px rgba(255,24,1,0.6); transform: scale(1.06); }
-  100% { text-shadow: 0 0 24px var(--red-glow);    transform: scale(1);    }
 }
 
 .cd-lbl {
@@ -440,11 +488,12 @@ body {
   flex-shrink: 0;
 }
 
-/* Localized session time */
+/* Localized Session Time & Timezone Pill */
 .cd-local-time {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  gap: 8px;
   padding: 8px 12px;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
@@ -455,17 +504,39 @@ body {
   color: var(--text-secondary);
 }
 
-.cd-local-time .chip-icon { color: var(--cyan); }
+.cd-local-time__left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
 
-/* Race Live Banner */
+.cd-local-time .chip-icon {
+  color: var(--cyan);
+}
+
+.tz-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--cyan);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 4px;
+  padding: 1px 6px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+/* Race Weekend Live Banner */
 .race-live-banner {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   padding: 12px;
-  background: rgba(255,24,1,0.08);
-  border: 1px solid rgba(255,24,1,0.3);
+  background: rgba(255, 24, 1, 0.10);
+  border: 1px solid rgba(255, 24, 1, 0.35);
   border-radius: var(--radius-sm);
   font-family: var(--font-display);
   font-weight: 800;
@@ -477,9 +548,9 @@ body {
 
 .live-flag { font-size: 1.1rem; }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    STANDINGS CARD
-   ════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
 .standings-card__header {
   display: flex;
   align-items: center;
@@ -510,7 +581,6 @@ body {
   letter-spacing: 1px;
 }
 
-/* ── Driver list ── */
 .standings-list {
   list-style: none;
   display: flex;
@@ -528,7 +598,6 @@ body {
   border-radius: 12px;
   position: relative;
   overflow: hidden;
-  /* Staggered entrance */
   opacity: 0;
   transform: translateY(12px);
   animation: slide-up 0.4s ease-out forwards;
@@ -538,7 +607,6 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Team accent: coloured left bar via CSS var injected per-item */
 .driver-item::before {
   content: '';
   position: absolute;
@@ -548,7 +616,6 @@ body {
   background: var(--accent, var(--team-default));
 }
 
-/* P1 gold shimmer background */
 .driver-item[data-pos="1"] {
   background: linear-gradient(90deg,
     rgba(255,195,0,0.07) 0%, rgba(17,24,39,0.5) 55%
@@ -563,7 +630,6 @@ body {
   min-width: 22px;
   text-align: center;
   flex-shrink: 0;
-  /* Colour via data-pos */
   color: var(--text-muted);
 }
 
@@ -624,9 +690,9 @@ body {
   text-transform: uppercase;
 }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    SESSION SCHEDULE
-   ════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
 .session-schedule {
   margin-top: 14px;
   display: flex;
@@ -641,18 +707,17 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 6px 10px;
+  padding: 7px 10px;
   border-radius: 8px;
   background: rgba(255,255,255,0.025);
+  border: 1px solid transparent;
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.session-row--race {
-  background: rgba(255,24,1,0.07);
-  border: 1px solid rgba(255,24,1,0.2);
-}
-
-.session-row--past {
-  opacity: 0.38;
+.session-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .session-label {
@@ -666,21 +731,48 @@ body {
   flex-shrink: 0;
 }
 
+.session-row--race {
+  background: rgba(255, 24, 1, 0.06);
+  border-color: rgba(255, 24, 1, 0.25);
+}
+
 .session-row--race .session-label {
   color: var(--red);
 }
 
+.session-row--live {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.session-live-pill {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: #FFFFFF;
+  background: var(--green);
+  border-radius: 3px;
+  padding: 1px 5px;
+  animation: pulse-soft 1.5s infinite;
+}
+
+.session-row--past {
+  opacity: 0.38;
+}
+
 .session-time {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
   font-weight: 500;
   color: var(--text-muted);
   text-align: right;
+  white-space: nowrap;
 }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    INLINE ERROR
-   ════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
 .inline-error {
   display: flex;
   flex-direction: column;
@@ -701,9 +793,9 @@ body {
   line-height: 1.6;
 }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    SKELETON LOADERS
-   ════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
 @keyframes shimmer {
   0%   { background-position: -400px 0; }
   100% { background-position:  400px 0; }
@@ -721,10 +813,10 @@ body {
   animation: shimmer 1.5s infinite;
 }
 
-.sk--label    { height: 12px; width: 90px;  margin-bottom: 10px; }
-.sk--title    { height: 28px; width: 75%;   margin-bottom: 10px; }
-.sk--sub      { height: 14px; width: 50%; }
-.sk--countdown{ height: 72px; width: 100%;  border-radius: 10px; }
+.sk--label     { height: 12px; width: 90px; margin-bottom: 10px; }
+.sk--title     { height: 28px; width: 75%;  margin-bottom: 10px; }
+.sk--sub       { height: 14px; width: 50%; }
+.sk--countdown { height: 72px; width: 100%; border-radius: 10px; }
 .sk--driver {
   height: 58px;
   width: 100%;
@@ -733,11 +825,11 @@ body {
   animation-delay: calc(var(--i) * 0.1s);
 }
 
-/* ════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    FOOTER
-   ════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
 .app-footer {
-  padding: 12px 18px 20px;
+  padding: 14px 18px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -757,7 +849,5 @@ body {
   }
 }
 
-/* ════════════════════════════════════
-   UTILITY
-   ════════════════════════════════════ */
+/* ── Utility ── */
 .hidden { display: none !important; }
