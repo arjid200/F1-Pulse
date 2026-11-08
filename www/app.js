@@ -1,20 +1,20 @@
 /**
- * F1 Pulse — app.js  v4.0
+ * F1 Pulse ΓÇö app.js  v4.0
  *
- * FIXED:  Correct Jolpica domain → api.jolpi.ca  (not api.jolpica.com)
+ * FIXED:  Correct Jolpica domain ΓåÆ api.jolpi.ca  (not api.jolpica.com)
  * FIXED:  OpenF1 locks ALL data behind paywall during live sessions
- * USES:   api.jolpi.ca — free, no-auth, working as of Nov 2026
+ * USES:   api.jolpi.ca ΓÇö free, no-auth, working as of Nov 2026
  *
  * Live data confirmed:
- *   Next race  → Round 20 · Brazilian Grand Prix · 2026-11-08T17:00:00Z
- *   P1 Standings → Andrea Kimi Antonelli (Mercedes) · 380 pts
+ *   Next race  ΓåÆ Round 20 ┬╖ Brazilian Grand Prix ┬╖ 2026-11-08T17:00:00Z
+ *   P1 Standings ΓåÆ Andrea Kimi Antonelli (Mercedes) ┬╖ 380 pts
  */
 
 'use strict';
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Constants
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 const BASE       = 'https://api.jolpi.ca/ergast/f1';
 const HEADERS    = { 'Accept': 'application/json' };
 const TIMEOUT_MS = 12_000;
@@ -25,9 +25,9 @@ const URLS = {
   standings: `${BASE}/current/driverStandings.json`,
 };
 
-/* ═══════════════════════════════════════════
-   Team → accent colour
-   ═══════════════════════════════════════════ */
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+   Team ΓåÆ accent colour
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 const TEAM_COLOURS = {
   'mercedes':     '#27F4D2',
   'red bull':     '#3671C6',
@@ -56,9 +56,9 @@ function teamColour(name) {
   return null;
 }
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Utility
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 const $   = id => document.getElementById(id);
 const pad = n  => String(n).padStart(2, '0');
 
@@ -85,23 +85,25 @@ async function apiFetch(url, ms = TIMEOUT_MS) {
 
 function toLocalDateTime(isoStr) {
   if (!isoStr) return 'Time TBC';
-  return new Date(isoStr).toLocaleString(undefined, {
+  return new Date(isoStr).toLocaleString('en-IN', {
     weekday: 'short', day: 'numeric', month: 'short',
     year: 'numeric', hour: '2-digit', minute: '2-digit',
+    timeZone: 'Asia/Kolkata',
     timeZoneName: 'short',
   });
 }
 
 function toLocalDate(isoStr) {
-  if (!isoStr) return '—';
-  return new Date(isoStr).toLocaleDateString(undefined, {
+  if (!isoStr) return 'ΓÇö';
+  return new Date(isoStr).toLocaleDateString('en-IN', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    timeZone: 'Asia/Kolkata',
   });
 }
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Countdown
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 let _cdInt = null;
 
 function startCountdown(raceISO) {
@@ -140,9 +142,9 @@ function startCountdown(raceISO) {
   _cdInt = setInterval(tick, 1000);
 }
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Build session weekend schedule HTML
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 function buildSessionRows(race) {
   const sessions = [
     { key: 'FirstPractice',  label: 'FP1' },
@@ -178,24 +180,24 @@ function buildSessionRows(race) {
   return html;
 }
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Render: Race card
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 function renderRace(race, isNext) {
   const raceISO = race.time
     ? `${race.date}T${race.time}`
     : `${race.date}T00:00:00Z`;
 
   // Header bar
-  $('hdr-country').textContent = race.Circuit?.Location?.country ?? '—';
-  $('hdr-circuit').textContent = race.Circuit?.circuitName       ?? '—';
+  $('hdr-country').textContent = race.Circuit?.Location?.country ?? 'ΓÇö';
+  $('hdr-circuit').textContent = race.Circuit?.circuitName       ?? 'ΓÇö';
 
   // Race card
   $('race-label').textContent   = isNext ? 'NEXT RACE' : 'LAST RACE';
   $('race-round').textContent   = `RD ${pad(race.round ?? 0)}`;
-  $('race-name').textContent    = (race.raceName ?? '—').toUpperCase();
-  $('chip-circuit').textContent = race.Circuit?.circuitName ?? '—';
-  $('chip-country').textContent = race.Circuit?.Location?.country ?? '—';
+  $('race-name').textContent    = (race.raceName ?? 'ΓÇö').toUpperCase();
+  $('chip-circuit').textContent = race.Circuit?.circuitName ?? 'ΓÇö';
+  $('chip-country').textContent = race.Circuit?.Location?.country ?? 'ΓÇö';
 
   // Session schedule block
   const schedEl = $('session-schedule');
@@ -207,7 +209,7 @@ function renderRace(race, isNext) {
   // Countdown
   $('cd-local-text').textContent = toLocalDateTime(raceISO);
   $('cd-status').textContent     = toLocalDate(raceISO);
-  $('sync-label').textContent    = `2026 · Live`;
+  $('sync-label').textContent    = `2026 ┬╖ Live`;
 
   if (isNext) {
     startCountdown(raceISO);
@@ -217,14 +219,14 @@ function renderRace(race, isNext) {
     hide($('countdown-grid'));
     hide($('cd-local-time'));
     const b = $('race-live');
-    b.innerHTML = `<span>🏁</span><span>SEASON CONCLUDED — ${race.season ?? ''}</span><span>🏁</span>`;
+    b.innerHTML = `<span>≡ƒÅü</span><span>SEASON CONCLUDED ΓÇö ${race.season ?? ''}</span><span>≡ƒÅü</span>`;
     show(b);
   }
 }
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Render: Standings
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 function renderStandings(entries) {
   const list = $('standings-list');
   list.innerHTML = '';
@@ -232,7 +234,7 @@ function renderStandings(entries) {
   entries.slice(0, 5).forEach((e, i) => {
     const accent = teamColour(e.Constructors?.[0]?.name) ?? 'var(--team-default)';
     const name   = `${e.Driver?.givenName ?? ''} ${e.Driver?.familyName ?? ''}`.trim();
-    const team   = e.Constructors?.[0]?.name ?? '—';
+    const team   = e.Constructors?.[0]?.name ?? 'ΓÇö';
 
     const li = document.createElement('li');
     li.className = 'driver-item';
@@ -258,9 +260,9 @@ function renderStandings(entries) {
   show($('standings-list'));
 }
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Error helpers
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 function onRaceError(msg) {
   console.error('[F1 Pulse] Race fetch failed:', msg);
   hide($('race-skeleton'));
@@ -277,18 +279,18 @@ function onStandingsError(msg) {
   show($('standings-error'));
 }
 
-/* ═══════════════════════════════════════════
-   Fetch: Race (next → last fallback)
-   ═══════════════════════════════════════════ */
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+   Fetch: Race (next ΓåÆ last fallback)
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 async function loadRace() {
-  // ① Try upcoming race
+  // Γæá Try upcoming race
   try {
     const d     = await apiFetch(URLS.next);
     const races = d?.MRData?.RaceTable?.Races ?? [];
     if (races.length > 0) { renderRace(races[0], true); return; }
   } catch (e) { console.warn('[F1 Pulse] next.json failed:', e.message); }
 
-  // ② Off-season: show last race
+  // Γæí Off-season: show last race
   try {
     const d     = await apiFetch(URLS.last);
     const races = d?.MRData?.RaceTable?.Races ?? [];
@@ -298,9 +300,9 @@ async function loadRace() {
   onRaceError('Both endpoints exhausted');
 }
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Fetch: Standings
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 async function loadStandings() {
   try {
     const d     = await apiFetch(URLS.standings);
@@ -312,13 +314,14 @@ async function loadStandings() {
   }
 }
 
-/* ═══════════════════════════════════════════
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
    Boot
-   ═══════════════════════════════════════════ */
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 function init() {
   Promise.allSettled([loadRace(), loadStandings()]).then(() => {
-    const ts = new Date().toLocaleTimeString(undefined, {
-      hour: '2-digit', minute: '2-digit'
+    const ts = new Date().toLocaleTimeString('en-IN', {
+      hour: '2-digit', minute: '2-digit',
+      timeZone: 'Asia/Kolkata'
     });
     $('footer-ts').textContent = `Updated ${ts}`;
   });
